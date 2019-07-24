@@ -1,0 +1,13 @@
+--- Nodes.pm	2019-07-24 19:08:09.270320224 +0800
++++ Nodes.pm.1	2019-07-24 19:11:16.768227304 +0800
+@@ -303,6 +303,10 @@
+ 	$res->{pveversion} = PVE::pvecfg::package() . "/" .
+ 	    PVE::pvecfg::version_text();
+ 
++	$res->{cputemp} = `sensors`;
++	my @hddtemp = ('nc localhost 7634');
++	$res->{hddstat} = `@hddtemp`;
++
+ 	my $dinfo = df('/', 1);     # output is bytes
+ 
+ 	$res->{rootfs} = {
