@@ -13,8 +13,8 @@ wget https://raw.githubusercontent.com/SeonMe/pve_patch/master/pvemanagerlib.pat
 
 patch -p0 /usr/share/perl5/PVE/API2/Nodes.pm < nodes.patch
 patch -p0 /usr/share/pve-manager/js/pvemanagerlib.js < pvemanagerlib.patch
-rm -r pve_patch
 popd > /dev/null
+rm -r pve_patch
 
 if [ -e "/etc/rc.local" ]; then
   systemctl restart pveproxy
