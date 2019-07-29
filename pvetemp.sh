@@ -16,6 +16,9 @@ patch -p0 /usr/share/pve-manager/js/pvemanagerlib.js < pvemanagerlib.patch
 rm -r pve_patch
 popd > /dev/null
 
+if [ -e "/etc/rc.local" ]; then
+  systemctl restart pveproxy
+else
 cat > /etc/systemd/system/rc-local.service <<EOF
 [Unit]
 Description=/etc/rc.local
@@ -57,5 +60,5 @@ exit 0
 EOF
 
 /etc/rc.local
-
 systemctl restart pveproxy
+fi

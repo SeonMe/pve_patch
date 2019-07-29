@@ -1,15 +1,15 @@
---- pvemanagerlib.js	2019-07-24 19:11:37.091329169 +0800
-+++ pvemanagerlib.js.1	2019-07-24 19:19:39.875950013 +0800
-@@ -17870,7 +17870,7 @@
+--- pvemanagerlib.new.js	2019-07-29 23:01:03.561503499 +0800
++++ pvemanagerlib.js	2019-07-29 23:05:23.155733516 +0800
+@@ -17992,7 +17992,7 @@
      extend: 'PVE.panel.StatusView',
      alias: 'widget.pveNodeStatus',
- 
+
 -    height: 300,
 +    height: 340,
      bodyPadding: '20 15 20 15',
- 
+
      layout: {
-@@ -17987,6 +17987,32 @@
+@@ -18109,6 +18109,32 @@
  	    title: gettext('PVE Manager Version'),
  	    textField: 'pveversion',
  	    value: ''
@@ -22,10 +22,10 @@
 +	    textField: 'cputemp',
 +	    renderer:function(value){
 +	        const c0 = value.match(/Core 0.*?\+([\d\.]+)Â/)[1];
-+	        const c1 = value.match(/Core 1.*?\+([\d\.]+)Â/)[1];
-+	        const c2 = value.match(/Core 2.*?\+([\d\.]+)Â/)[1];
-+	        const c3 = value.match(/Core 3.*?\+([\d\.]+)Â/)[1];
-+	        return `Core 0: ${c0} ℃ | Core 1: ${c1} ℃ | Core 2: ${c2} ℃ | Core 3: ${c3} ℃`
++		const c1 = value.match(/Core 1.*?\+([\d\.]+)Â/)[1];
++		const c2 = value.match(/Core 2.*?\+([\d\.]+)Â/)[1];
++		const c3 = value.match(/Core 3.*?\+([\d\.]+)Â/)[1];
++		return `Core 0: ${c0} ℃ | Core 1: ${c1} ℃ | Core 2: ${c2} ℃ | Core 3: ${c3} ℃`
 +	    }
 +	},
 +	{
@@ -35,10 +35,9 @@
 +	    title: gettext('HDD Temp'),
 +	    textField: 'hddstat',
 +	    renderer:function(value){
-+		const sda = value.match(/.sda\|[\w\s\-]*\|([\d]+)?/)[1];
++	        const sda = value.match(/.sda\|[\w\s\-]*\|([\d]+)?/)[1];
 +		const sdb = value.match(/.sdb\|[\w\s\-]*\|([\d]+)?/)[1];
 +		return `sda: ${sda} ℃ | sdb: ${sdb}℃ `
 +	    }
  	}
      ],
- 
