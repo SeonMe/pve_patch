@@ -6,7 +6,7 @@ apt update && apt install ${PkgList} -y
 
 default | sensors-detect
 
-[ ! -d "pve_patch" ] && mkdir -p pve_patch && pushd pve_patch > /dev/null
+[ ! -d "/tmp/pve_patch" ] && mkdir -p /tmp/pve_patch && pushd /tmp/pve_patch > /dev/null
 
 wget https://raw.githubusercontent.com/SeonMe/pve_patch/master/nodes.patch
 wget https://raw.githubusercontent.com/SeonMe/pve_patch/master/pvemanagerlib.patch
@@ -14,7 +14,7 @@ wget https://raw.githubusercontent.com/SeonMe/pve_patch/master/pvemanagerlib.pat
 patch -p0 /usr/share/perl5/PVE/API2/Nodes.pm < nodes.patch
 patch -p0 /usr/share/pve-manager/js/pvemanagerlib.js < pvemanagerlib.patch
 popd > /dev/null
-rm -r pve_patch
+rm -r /tmp/pve_patch
 
 if [ -e "/etc/rc.local" ]; then
   systemctl restart pveproxy
