@@ -11,10 +11,26 @@ default | sensors-detect
 wget https://raw.githubusercontent.com/SeonMe/pve_patch/master/nodes.patch
 wget https://raw.githubusercontent.com/SeonMe/pve_patch/master/pvemanagerlib.patch
 
-patch -p0 /usr/share/perl5/PVE/API2/Nodes.pm < nodes.patch
-patch -p0 /usr/share/pve-manager/js/pvemanagerlib.js < pvemanagerlib.patch
+if [ -e "/usr/share/perl5/PVE/API2/Nodes.pm_orig" ]; then
+  patch -p0 /usr/share/perl5/PVE/API2/Nodes.pm < nodes.patch
+else
+  /bin/cp /usr/share/perl5/PVE/API2/Nodes.pm{,_orig}
+  patch -p0 /usr/share/perl5/PVE/API2/Nodes.pm < nodes.patch
+fi
+if [ -e "/usr/share/pve-manager/js/pvemanagerlib.js_orig" ]; then
+  patch -p0 /usr/share/pve-manager/js/pvemanagerlib.js < pvemanagerlib.patch
+else
+  bin/cp /usr/share/pve-manager/js/pvemanagerlib.js{,_orig}
+  patch -p0 /usr/share/pve-manager/js/pvemanagerlib.js < pvemanagerlib.patch
+fi
+if [ -e "/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js_orig" ]; then
+  sed -i "s/data.status !== 'Active'/false/g" /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js
+else
+  sed -i_orig "s/data.status !== 'Active'/false/g" /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js
+fi
+sed -i "s/pve-enterprise/pve-no-subscription/g" /etc/apt/sources.list.d/pve-enterprise.list
 popd > /dev/null
-rm -r /tmp/pve_patch
+/bin/rm -r /tmp/pve_patch
 
 if [ -e "/etc/rc.local" ]; then
   systemctl restart pveproxy
@@ -62,3 +78,5 @@ EOF
 /etc/rc.local
 systemctl restart pveproxy
 fi
+
+echo "update successfully!"
